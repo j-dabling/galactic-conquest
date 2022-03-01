@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Levels/Map/Planets/GalacticCamera.gd" type="Script" id=1]
 [ext_resource path="res://Levels/Map/Map.gd" type="Script" id=2]
@@ -8,10 +8,20 @@
 [ext_resource path="res://Levels/Map/Planets/Planet.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Levels/Map/Planets/Lava_Planet/LavaPlanet_Texture.jpg" type="Texture" id=7]
 [ext_resource path="res://Levels/Map/Planets/RedWhite_Planet/RedWhite_Planet_Texture.jpg" type="Texture" id=8]
+[ext_resource path="res://Levels/Map/Planets/Sun/Sun_Texture.webp" type="Texture" id=9]
 
 [sub_resource type="Environment" id=1]
 
 [sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_texture = ExtResource( 9 )
+emission_enabled = true
+emission = Color( 1, 0.537255, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+emission_texture = ExtResource( 9 )
 
 [sub_resource type="SpatialMaterial" id=4]
 albedo_texture = ExtResource( 7 )
@@ -45,9 +55,9 @@ visible = false
 omni_range = 100.0
 
 [node name="MeshInstance" type="MeshInstance" parent="OmniLight"]
-transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0 )
+transform = Transform( -2.82109, 0, -4.12813, 1.86552, 4.46033, -1.27487, 3.68256, -2.25953, -2.5166, 0, 0, 0 )
 mesh = SubResource( 2 )
-material/0 = null
+material/0 = SubResource( 8 )
 
 [node name="Planet3" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.4547, 0, 9.03436 )
