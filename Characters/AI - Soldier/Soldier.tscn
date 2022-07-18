@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Characters/AI - Soldier/Soldier.gd" type="Script" id=1]
+[ext_resource path="res://Characters/Soldier/Weapon.gd" type="Script" id=2]
+[ext_resource path="res://Characters/AI - Soldier/States.gd" type="Script" id=3]
+[ext_resource path="res://Characters/AI - Soldier/Advance.gd" type="Script" id=4]
+[ext_resource path="res://Levels/Test/Materials/M_Dark.tres" type="Material" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleMesh" id=2]
+
+[sub_resource type="CapsuleMesh" id=4]
+
+[sub_resource type="SphereShape" id=3]
+radius = 5.01768
+
+[node name="Soldier" type="KinematicBody"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 1 )
+
+[node name="Collision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="CSGMesh" type="CSGMesh" parent="."]
+transform = Transform( 0.9, 0, 0, 0, -3.93403e-08, -1, 0, 0.9, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 2 )
+
+[node name="States" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Advance" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="Head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0 )
+
+[node name="FOV" type="Area" parent="Head"]
+transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.0911998, 0 )
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="Head/FOV"]
+transform = Transform( 1, 0, 0, 0, 1, -8.35187e-23, 0, -8.35187e-23, 1, 0, 0, 0 )
+polygon = PoolVector2Array( 0, 0, 16, -8, 16, 8 )
+
+[node name="Camera" type="Camera" parent="Head"]
+far = 250.0
+
+[node name="RayCast" type="RayCast" parent="Head/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -100 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Head"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.25, 0, 0, -0.679973 )
+mesh = SubResource( 4 )
+material = ExtResource( 5 )
+
+[node name="Weapon" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Muzzle" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+
+[node name="Proximity" type="Area" parent="."]
+visible = false
+
+[node name="CollisionShape" type="CollisionShape" parent="Proximity"]
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Head/FOV" to="States" method="_on_FOV_body_entered"]
+[connection signal="body_exited" from="Head/FOV" to="States" method="_on_FOV_body_exited"]
+[connection signal="body_entered" from="Proximity" to="States" method="_on_Proximity_body_entered"]
+[connection signal="body_exited" from="Proximity" to="States" method="_on_Proximity_body_exited"]

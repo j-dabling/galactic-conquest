@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Characters/Soldier/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test/Geometry/Floor.tscn" type="PackedScene" id=2]
@@ -6,16 +6,19 @@
 [ext_resource path="res://Levels/Test/L_Test.gd" type="Script" id=4]
 [ext_resource path="res://Levels/Test/Geometry/Wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Levels/Test/Geometry/Cube.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Characters/AI - Soldier/Soldier.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SphereMesh" id=1]
 
 [sub_resource type="SphereShape" id=2]
 
+[sub_resource type="CylinderMesh" id=3]
+
 [node name="L_Main" type="Spatial"]
 script = ExtResource( 4 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0169, 0 )
+[node name="Player" parent="." groups=["Allies"] instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0169, 3.78743 )
 
 [node name="ArenaGeometry" type="Spatial" parent="."]
 
@@ -136,3 +139,9 @@ mesh = SubResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Enemy2"]
 shape = SubResource( 2 )
+
+[node name="Soldier" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4122, 2.67195, -1.48729 )
+
+[node name="CSGMesh" type="CSGMesh" parent="."]
+mesh = SubResource( 3 )
