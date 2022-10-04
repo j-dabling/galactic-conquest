@@ -32,6 +32,9 @@ var _is_jumping_input := false
 
 ##################################################
 
+enum {red, green, blue}
+var team = 0
+
 # Called when the node enters the scene tree
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -60,6 +63,26 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		mouse_axis = event.relative
 		camera_rotation()
+	
+	# Simple toggle for changing teams, for testing.
+	if event.is_action_pressed("switch_team"):
+		team += 1
+		if team > 2:
+			team = 0
+			
+		match team:
+			0:
+				self.remove_from_group("blue")
+				self.add_to_group("red")
+				print("Team changed to RED")
+			1:
+				self.remove_from_group("red")
+				self.add_to_group("green")
+				print("Team changed to GREEN")
+			2:
+				self.remove_from_group("green")
+				self.add_to_group("blue")
+				print("Team changed to BLUE")
 
 
 func walk(delta: float) -> void:
