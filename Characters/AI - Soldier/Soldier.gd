@@ -73,7 +73,7 @@ func move(delta: float, move_dir: Vector3):
 	#head.look_at(move_dir)
 	head.rotation.y = move_dir.y
 	self.rotation.x = move_dir.x
-	print("move() FUNCTION IS BEING CALLED!!!!")
+	#print("move() FUNCTION IS BEING CALLED!!!!")
 	if is_on_floor():
 		snap = -get_floor_normal() - get_floor_velocity() * delta
 		
