@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Characters/Soldier/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test/Geometry/Floor.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Levels/Test/Geometry/Cube.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Characters/AI - Soldier/Soldier.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/ControlPoint/ControlPoint.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Characters/AI - Soldier/Carl.tscn" type="PackedScene" id=9]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -142,10 +143,13 @@ mesh = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Soldier" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4122, 2.67195, -1.48729 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4122, 2.67195, -14.9891 )
 
 [node name="CSGMesh" type="CSGMesh" parent="."]
 mesh = SubResource( 3 )
 
 [node name="Point Mesh" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.26859, 3.19042, 4.47793 )
+
+[node name="Carl" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6871, 3.25477, -1.5693 )
