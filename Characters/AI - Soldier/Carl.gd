@@ -41,6 +41,8 @@ func _process(delta) -> void:
 			move(delta, advance_vector) 
 		combat:
 			head.look_at(closest_body.transform.origin, Vector3.UP)
+			# var transform = head.transform.looking_at(closest_body.transform.origin, Vector3.UP)
+			# head.transform = head.transform.interpolate_with(transform, delta)
 		retreat:
 			# Future implimentations may involve additional logic to face
 			# the enemy and move backwards, or full turn and run.
