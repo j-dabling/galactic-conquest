@@ -93,7 +93,7 @@ func _process(delta):
 	evaluate_vision()
 	
 	active_state = get_highest_state()
-	print(active_state)
+	#print(active_state)
 	match active_state:
 		idle:
 			pass
@@ -102,9 +102,11 @@ func _process(delta):
 		combat:
 			pass
 		retreat:
-			retreat()
+			retreat(delta)
 		cover:
 			pass
+		# _:
+		# 	root.move_axis = Vector2.ZERO
 
 ################################## End Logic ###################################
 
@@ -120,7 +122,10 @@ func advance():
 #		root.rotation.y = direction.x
 #		print("direction: %s" % direction
 		var dir = look_to(objective_pos)
+		print("dir: ", dir)
 		root.move_axis = Vector2(dir.z, dir.x)
+		print("move_axis: ", root.move_axis)
+#		root.direction = dir
 #	print(root.move_axis)
 #	print("objective_pos: %s" % objective_pos)
 
@@ -135,10 +140,12 @@ func has_reached(pos):
 ############################## End Advance State ###############################
 
 ################################ Retreat State #################################
-func retreat():
+func retreat(delta):
 #	var direction = root.transform.origin.direction_to(get_closest_hazard().transform.origin)
 #	root.move_axis = Vector2(direction.x, direction.z)
-	look_to(objective_pos)
+	var dir = look_to(objective_pos) * delta
+	root.move(delta, dir)#Vector2(dir.z * -1, dir.x * -1))
+#	root.move_and_slide_with_snap(dir, Vector3.ZERO, Vector3.UP, true, 4, 30)
 
 func get_closest_hazard():
 	var closest_hazard = null

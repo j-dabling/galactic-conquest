@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Characters/AI - Soldier/Soldier.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Soldier/Weapon.gd" type="Script" id=2]
 [ext_resource path="res://Characters/AI - Soldier/States.gd" type="Script" id=3]
 [ext_resource path="res://Characters/AI - Soldier/Advance.gd" type="Script" id=4]
 [ext_resource path="res://Levels/Test/Materials/M_Dark.tres" type="Material" id=5]
+[ext_resource path="res://assets/ultimate spaceships - may 2021/Texture.material" type="Material" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -28,6 +29,7 @@ shape = SubResource( 1 )
 [node name="CSGMesh" type="CSGMesh" parent="."]
 transform = Transform( 0.9, 0, 0, 0, -3.93403e-08, -1, 0, 0.9, -4.37114e-08, 0, 0, 0 )
 mesh = SubResource( 2 )
+material = ExtResource( 6 )
 
 [node name="States" type="Node" parent="."]
 script = ExtResource( 3 )
