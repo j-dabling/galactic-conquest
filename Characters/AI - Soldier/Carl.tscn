@@ -34,6 +34,8 @@ material = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 polygon = PoolVector2Array( 0, 0, -15, 20, 0, 25, 15, 20 )
 
+[node name="Line_of_Sight" type="RayCast" parent="Head"]
+
 [node name="Hitbox" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 2 )
