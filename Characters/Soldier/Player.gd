@@ -57,7 +57,7 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	walk(delta)
 
-
+signal destination_given(position)
 # Called when there is an input event
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -83,6 +83,10 @@ func _input(event: InputEvent) -> void:
 				self.remove_from_group("green")
 				self.add_to_group("blue")
 				print("Team changed to BLUE")
+
+	
+	if event.is_action_pressed("secondary_fire"):
+		emit_signal("destination_given", self.transform.origin)
 
 
 func walk(delta: float) -> void:

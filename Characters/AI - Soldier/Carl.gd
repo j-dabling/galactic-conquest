@@ -19,6 +19,7 @@ var active_state : int = idle
 
 var proximity = []
 var fov = []
+var objectives = []
 var active_objective = Vector3.ZERO
 
 
@@ -27,6 +28,7 @@ func _process(delta) -> void:
 # Evaluates conditions and weighs the state machine accordingly.
 	_check_proximity()
 	var closest_body = _check_fov()
+	_check_objective()
 
 	# Determines the active state from the current weights.
 	var heaviest_state = -1
@@ -34,20 +36,21 @@ func _process(delta) -> void:
 		if status[current_state] > heaviest_state:
 			heaviest_state = status[current_state]
 			active_state = current_state
-	#print("Carl's active state is: ", active_state)
+	print("Carl's active state is: ", active_state)
 	match active_state:
 		advance:
 			var advance_vector = _face_towards(active_objective)
 			move(delta, advance_vector) 
 		combat:
 			head.look_at(closest_body.transform.origin, Vector3.UP)
+			move(delta)
 			# var transform = head.transform.looking_at(closest_body.transform.origin, Vector3.UP)
 			# head.transform = head.transform.interpolate_with(transform, delta)
 		retreat:
 			# Future implimentations may involve additional logic to face
 			# the enemy and move backwards, or full turn and run.
 			var retreat_vector = _face_towards(proximity[0].transform.origin)
-			move(delta, retreat_vector)
+			move(delta, -(retreat_vector))
 		cover:
 			pass
 		_: # The default state is to idle.
@@ -57,7 +60,8 @@ func _process(delta) -> void:
 func _face_towards(focus: Vector3):
 # Will orient the body and head to face towards 'focus'.
 # Returns the resulting direction vector.
-	var direction = focus.direction_to(self.transform.origin)
+	#var direction = focus.direction_to(self.transform.origin)
+	var direction = self.transform.origin.direction_to(focus)
 	# self.rotation.y = direction.x
 	# head.rotation.z = -(direction.y)
 	
@@ -99,6 +103,15 @@ func _check_fov() -> KinematicBody:
 			closest_body = body
 			closest_dist = body_dist
 	return closest_body
+
+
+func _check_objective():
+	if len(objectives) > 0:
+		active_objective = objectives.pop_back()
+		if active_objective:
+			var objective_dist = self.transform.origin.distance_to(active_objective)
+			if objective_dist > 5:
+				status[advance] = (objective_dist/100) * weights[advance]
 
 
 func move(delta: float, direction:= Vector3.ZERO) -> void:
@@ -147,3 +160,8 @@ func _on_Field_of_View_body_entered(body:Node):
 func _on_Field_of_View_body_exited(body:Node):
 	if body.is_in_group("player") or body.is_in_group("bot"):
 		fov.erase(body)
+
+
+func _on_Player_destination_given(position):
+	print("The position, %s has been given to me!" % position)
+	objectives.append(position)

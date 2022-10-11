@@ -153,3 +153,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.26859, 3.19042, 4.47793 )
 
 [node name="Carl" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6871, 3.25477, -1.5693 )
+
+[connection signal="destination_given" from="Player" to="Carl" method="_on_Player_destination_given"]
