@@ -28,10 +28,13 @@ var active_objective = Vector3.ZERO
 func _process(delta) -> void:
 # Run every frame of the game.
 # Evaluates conditions and weighs the state machine accordingly.
+	_check_proximity()
 	var closest_body = _check_fov()
-	if len(proximity) > 0:
-		closest_body =_check_proximity()
-	_check_objective()
+	# if self.transform.origin.distance_to(closest_body_fov) < self.transform.origin.distance_to(closest_body):
+	# 	closest_body = closest_body_fov
+	# if len(proximity) > 0:
+	# 	closest_body =_check_proximity()
+	# _check_objective()
 
 	# Determines the active state from the current weights.
 	var heaviest_state = -1
@@ -53,8 +56,9 @@ func _process(delta) -> void:
 		retreat:
 			# Future implimentations may involve additional logic to face
 			# the enemy and move backwards, or full turn and run.
-			var retreat_vector = _face_towards(proximity[0].transform.origin)
-			move(delta, -(retreat_vector))
+			if len(proximity) > 0:
+				var retreat_vector = _face_towards(proximity[0].transform.origin)
+				move(delta, -(retreat_vector))
 		cover:
 			pass
 		_: # The default state is to idle.
