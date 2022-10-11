@@ -3,11 +3,13 @@ extends KinematicBody
 ### Node References ###
 onready var head = get_node("Head")
 onready var player = get_node("../Player")
+onready var los = get_node("Head/Line_of_Sight")
 
 ### Movement vars ###
-var walk_speed = 15
-var acceleration = 0.2
-var gravity = 75
+export var walk_speed = 15
+export var acceleration = 0.2
+export var gravity = 75
+export var reach_tolerance = 2
 var velocity = Vector3.ZERO
 
 ### Behavior Vars ###
@@ -26,8 +28,9 @@ var active_objective = Vector3.ZERO
 func _process(delta) -> void:
 # Run every frame of the game.
 # Evaluates conditions and weighs the state machine accordingly.
-	_check_proximity()
 	var closest_body = _check_fov()
+	if len(proximity) > 0:
+		closest_body =_check_proximity()
 	_check_objective()
 
 	# Determines the active state from the current weights.
@@ -39,8 +42,9 @@ func _process(delta) -> void:
 	print("Carl's active state is: ", active_state)
 	match active_state:
 		advance:
-			var advance_vector = _face_towards(active_objective)
-			move(delta, advance_vector) 
+			if !_has_reached_position(active_objective):
+				var advance_vector = _face_towards(active_objective)
+				move(delta, advance_vector) 
 		combat:
 			head.look_at(closest_body.transform.origin, Vector3.UP)
 			move(delta)
@@ -102,6 +106,8 @@ func _check_fov() -> KinematicBody:
 		if body_dist < closest_dist:
 			closest_body = body
 			closest_dist = body_dist
+	if los.is_colliding():
+		print("Carl's raycast is colliding with something!")
 	return closest_body
 
 
@@ -112,6 +118,10 @@ func _check_objective():
 			var objective_dist = self.transform.origin.distance_to(active_objective)
 			if objective_dist > 5:
 				status[advance] = (objective_dist/100) * weights[advance]
+
+
+func _has_reached_position(pos):
+	return self.transform.origin.distance_to(pos) <= reach_tolerance
 
 
 func move(delta: float, direction:= Vector3.ZERO) -> void:
