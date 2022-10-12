@@ -89,7 +89,7 @@ func _check_proximity() -> KinematicBody:
 	var closest_body: KinematicBody
 	var proximity_sum: float = 0
 	for body in proximity:
-		var distance = self.transform.origin.distance_to(body.transform.origin)
+		var distance = self.translation.distance_to(body.transform.origin)
 		proximity_sum += distance
 		if distance < closest_dist:
 			closest_body = body
@@ -119,7 +119,7 @@ func _check_objective():
 	if len(objectives) > 0:
 		active_objective = objectives.pop_back()
 		if active_objective:
-			var objective_dist = self.transform.origin.distance_to(active_objective)
+			var objective_dist = self.translation.distance_to(active_objective)
 			if objective_dist > 5:
 				status[advance] = (objective_dist/100) * weights[advance]
 
