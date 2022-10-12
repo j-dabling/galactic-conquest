@@ -25,6 +25,7 @@ func _process(delta):
 			shoot_laser()
 			yield(get_tree().create_timer(fire_rate), "timeout")
 			can_fire = true
+			check_collision()
 			
 		elif not reloading:
 			reloading = true
@@ -37,7 +38,7 @@ func check_collision():
 	if raycast.is_colliding():
 		
 		var collider = raycast.get_collider()
-		if collider.is_in_group("Enemies"):
+		if collider.is_in_group("Enemies") or collider.is_in_group("bot"):
 			print("colliding raycast")
 			collider.queue_free()
 			print("killed " + collider.name)
